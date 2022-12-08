@@ -82,9 +82,8 @@ export default {
   methods: {
     async login() {
       const baseUrl = constants.urls[process.env.NODE_ENV];
-      console.log(baseUrl);
       const loginUrl = baseUrl + constants.endpoints.login;
-      console.log(loginUrl);
+      const customConfig = { headers: { 'Content-Type': 'application/json' }};
 
 
       this.loading = true;
@@ -93,7 +92,7 @@ export default {
             email: this.username.toString(),
             password: this.password.toString()
         }
-      }).then((response) => {
+      }, customConfig).then((response) => {
         if(response.status == 200) {
           this.$store.dispatch('authenticateUser', true);
           this.$store.dispatch('saveUserDetails', response.data);
