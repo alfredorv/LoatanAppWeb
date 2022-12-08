@@ -336,7 +336,7 @@ export default {
         this.customerSecondSurname = client.second_surname;
         this.customerRfc = client.rfc;
         this.customerPhone = client.phone;
-        this.customerEmail = client.email;
+        this.customerEmail = client.user.email;
         this.state = client.location.state;
         this.city = client.location.city;
         this.neighborhood = client.location.neighborhood;
