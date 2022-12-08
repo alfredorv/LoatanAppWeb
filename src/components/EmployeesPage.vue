@@ -98,7 +98,8 @@ import NewEmployeeStore from '@/store/NewEmployeeStore';
 export default Vue.extend({
   beforeMount () {
     this.loadingData = true;
-    axios.get(constants.endpoints.dev.users.getEmployees)
+    const baseUrl = constants.urls[process.env.NODE_ENV];
+    axios.get(baseUrl + constants.endpoints.users.getEmployees)
       .then(response =>{
         let employees = response.data;
 
@@ -158,8 +159,9 @@ export default Vue.extend({
     },
     submitInfo () {
       let payload = NewEmployeeStore;
-      const listEmployeesUrl = constants.endpoints.dev.users.getEmployees
-      const newEmployeeUrl = constants.endpoints.dev.users.createEmployee;
+      const baseUrl = constants.urls[process.env.NODE_ENV];
+      const listEmployeesUrl = baseUrl + constants.endpoints.users.getEmployees;
+      const newEmployeeUrl = baseUrl + constants.endpoints.users.createEmployee;
 
       axios.post(newEmployeeUrl, payload)
         .then(response => {

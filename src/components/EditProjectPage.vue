@@ -456,18 +456,19 @@ export default {
 },
   beforeMount () {
     this.loadingData = true;
-    let projectUrl = constants.endpoints.dev.projects.getProject + EditProjectStore.id;
-    let getCustomersUrl = constants.endpoints.dev.customers.getCustomers;
-    let getEmployeesUrl = constants.endpoints.dev.users.getEmployees;
+    const baseUrl = constants.urls[process.env.NODE_ENV];
+    let projectUrl = baseUrl + constants.endpoints.projects.getProject + EditProjectStore.id;
+    let getCustomersUrl = baseUrl + constants.endpoints.customers.getCustomers;
+    let getManagersUrl = baseUrl + constants.endpoints.users.getManagers;
 
     axios.get(getCustomersUrl)
       .then(response => response.data.forEach(c => this.customers.push(c.client)))
       .catch(error => console.log(error));
 
-    axios.get(getEmployeesUrl)
+    axios.get(getManagersUrl)
       .then(response => {
         if(response.data.length > 0) {
-          this.managers = response.data.filter(e => e.employee.position_id == 'manager');
+          this.managers = response.data;
         }
       })
       .catch(error => console.log(error));
@@ -649,7 +650,8 @@ export default {
     },
     deleteProject (dialogValue) {
       if(dialogValue != 'Cancel') {
-        const deleteProjectUrl = constants.endpoints.dev.projects.deleteProject;
+        const baseUrl = constants.urls[process.env.NODE_ENV];
+        const deleteProjectUrl = baseUrl + constants.endpoints.projects.deleteProject;
         axios.delete(deleteProjectUrl + EditProjectStore.id)
           .then(response => {
             if(response.status == 200) {
@@ -665,7 +667,8 @@ export default {
     },
     submitInfo () {
       const payload = JSON.stringify(NewProjectStore);
-      const editProjectUrl = constants.endpoints.dev.projects.updateProject + EditProjectStore.id;
+      const baseUrl = constants.urls[process.env.NODE_ENV];
+      const editProjectUrl = baseUrl + constants.endpoints.projects.updateProject + EditProjectStore.id;
       const customConfig = { headers: { 'Content-Type': 'application/json' }};
 
       axios.put(editProjectUrl, payload, customConfig)
@@ -683,7 +686,8 @@ export default {
     deleteIFCfile (dialogValue) {
       if(dialogValue != 'Cancel') {
         let formData = new FormData();
-        const deleteFileUrl = constants.endpoints.dev.projects.deleteFile + EditProjectStore.id + '/attachment';
+        const baseUrl = constants.urls[process.env.NODE_ENV];
+        const deleteFileUrl = baseUrl + constants.endpoints.projects.deleteFile + EditProjectStore.id + '/attachment';
         const customConfig = { headers: { 'Content-Disposition': 'form-data' }};
         const key = Object.keys(constants.project.attachments).find((key) => {
           return constants.project.attachments[key] === this.ifc.type;

@@ -98,7 +98,8 @@ import EditClientStore from '@/store/EditClientStore';
 export default Vue.extend({
   beforeMount () {
     this.loadingData = true;
-    const customersUrl = constants.endpoints.dev.customers.getCustomers;
+    const baseUrl = constants.urls[process.env.NODE_ENV];
+    const customersUrl = baseUrl + constants.endpoints.customers.getCustomers;
     const customConfig = { headers: { 'Accept': '*/*' }};
 
     axios.get(customersUrl, customConfig)
@@ -160,9 +161,10 @@ export default Vue.extend({
       document.getElementById("slideout-container").style.width = '0%';
     },
     submitInfo () {
+      const baseUrl = constants.urls[process.env.NODE_ENV];
+      const customersUrl = baseUrl + constants.endpoints.customers.getCustomers;
+      const newCustomerUrl = baseUrl + constants.endpoints.customers.createCustomer;
       const payload = JSON.stringify(NewClientStore);
-      const customersUrl = constants.endpoints.dev.customers.getCustomers;
-      const newCustomerUrl = constants.endpoints.dev.customers.createCustomer;
       const customConfig = { headers: { 'Content-Type': 'application/json' }};
       axios.post(newCustomerUrl, payload, customConfig)
         .then(response => {

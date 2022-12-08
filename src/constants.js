@@ -1,39 +1,41 @@
 export default {
+  urls: {
+    dev: 'http://localhost:3000',
+    staging: 'https://staging-loatanapp.herokuapp.com',
+    prod: 'https://loatanapp.herokuapp.com',
+  },
   endpoints: {
-    prod: {},
-    test: {},
-    dev: {
-      login: 'http://localhost:3000/sessions/login',
-      logout: 'http://localhost:3000/sessions/logout',
-      users: {
-        getUsers: 'http://localhost:3000/users',
-        getUser: 'http://localhost:3000/users/',
-        createEmployee: 'http://localhost:3000/employees',
-        updateEmployee: 'http://localhost:3000/employees/',
-        getEmployees: 'http://localhost:3000/employees',
-        getEmployee: 'http://localhost:3000/employees/',
-        uploadFile: 'http://localhost:3000/employees/',
-        deleteFile: 'http://localhost:3000/employees/',
-        deleteEmployee: 'http://localhost:3000/employees/'
-      },
-      customers: {
-        createCustomer: 'http://localhost:3000/clients',
-        getCustomer: 'http://localhost:3000/clients/',
-        getCustomers: 'http://localhost:3000/clients',
-        updateCustomer: 'http://localhost:3000/clients/',
-        uploadFile: 'http://localhost:3000/clients/',
-        deleteFile: 'http://localhost:3000/clients/',
-        deleteCustomer: 'http://localhost:3000/clients/'
-      },
-      projects: {
-        createProject: 'http://localhost:3000/projects',
-        getProjects: 'http://localhost:3000/projects',
-        getProject: 'http://localhost:3000/projects/',
-        updateProject: 'http://localhost:3000/projects/',
-        uploadFile: 'http://localhost:3000/projects/',
-        deleteFile: 'http://localhost:3000/projects/',
-        deleteProject: 'http://localhost:3000/projects/'
-      }
+    login: '/sessions/login',
+    logout: '/sessions/logout',
+    users: {
+      getUsers: '/users',
+      getUser: '/users/',
+      createEmployee: '/employees',
+      updateEmployee: '/employees/',
+      getEmployees: '/employees',
+      getEmployee: '/employees/',
+      getManagers: '/construction_managers',
+      uploadFile: '/employees/',
+      deleteFile: '/employees/',
+      deleteEmployee: '/employees/'
+    },
+    customers: {
+      createCustomer: '/clients',
+      getCustomer: '/clients/',
+      getCustomers: '/clients',
+      updateCustomer: '/clients/',
+      uploadFile: '/clients/',
+      deleteFile: '/clients/',
+      deleteCustomer: '/clients/'
+    },
+    projects: {
+      createProject: '/projects',
+      getProjects: '/projects',
+      getProject: '/projects/',
+      updateProject: '/projects/',
+      uploadFile: '/projects/',
+      deleteFile: '/projects/',
+      deleteProject: '/projects/'
     }
   },
   states: [

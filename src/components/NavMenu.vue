@@ -77,7 +77,8 @@ export default {
       this.$emit('selected-content', content);
     },
     logout () {
-      const logoutUrl = constants.endpoints.dev.logout;
+      const baseUrl = constants.urls[process.env.NODE_ENV];
+      const logoutUrl = baseUrl + constants.endpoints.logout;
 
       if(sessionStorage.loatanAppUserDetails) {
         var sessionStorageUserDetails = JSON.parse(sessionStorage.getItem('loatanAppUserDetails'));

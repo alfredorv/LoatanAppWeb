@@ -324,7 +324,8 @@ import UploadClientFileCard from './UploadClientFileCard.vue';
 export default {
   beforeMount () {
     this.loadingData = true;
-    let customerUrl = constants.endpoints.dev.customers.getCustomer + EditClientStore.id;
+    const baseUrl = constants.urls[process.env.NODE_ENV];
+    let customerUrl = baseUrl + constants.endpoints.customers.getCustomer + EditClientStore.id;
 
     axios.get(customerUrl)
       .then(response => {
@@ -476,7 +477,8 @@ export default {
     },
     deleteClient (dialogValue) {
       if(dialogValue != 'Cancel') {
-        const deleteCustomerUrl = constants.endpoints.dev.customers.deleteCustomer;
+        const baseUrl = constants.urls[process.env.NODE_ENV];
+        const deleteCustomerUrl = baseUrl + constants.endpoints.customers.deleteCustomer;
         axios.delete(deleteCustomerUrl + EditClientStore.id)
           .then(response => {
             if(response.status == 200) {
@@ -492,7 +494,8 @@ export default {
     },
     submitInfo () {
       const payload = JSON.stringify(NewClientStore);
-      const editClientUrl = constants.endpoints.dev.customers.updateCustomer + EditClientStore.id;
+      const baseUrl = constants.urls[process.env.NODE_ENV];
+      const editClientUrl = baseUrl + constants.endpoints.customers.updateCustomer + EditClientStore.id;
       const customConfig = { headers: { 'Content-Type': 'application/json' }};
 
       axios.put(editClientUrl, payload, customConfig)
@@ -513,7 +516,8 @@ export default {
     deleteFile (dialogValue) {
       if(dialogValue != 'Cancel') {
         let formData = new FormData();
-        const deleteFileUrl = constants.endpoints.dev.customers.deleteFile + EditClientStore.id + '/attachment';
+        const baseUrl = constants.urls[process.env.NODE_ENV];
+        const deleteFileUrl = baseUrl + constants.endpoints.customers.deleteFile + EditClientStore.id + '/attachment';
         const customConfig = { headers: { 'Content-Disposition': 'form-data' }};
         const key = Object.keys(constants.customer.attachments).find((key) => {
           return constants.customer.attachments[key] === this.file.type;

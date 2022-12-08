@@ -258,7 +258,8 @@ export default {
 },
   beforeMount () {
     this.loadingData = true;
-    axios.get(constants.endpoints.dev.users.getEmployee + EditEmployeeStore.id)
+    const baseUrl = constants.urls[process.env.NODE_ENV];
+    axios.get(baseUrl + constants.endpoints.users.getEmployee + EditEmployeeStore.id)
       .then(response => {
         let employee = response.data.employee;
 
@@ -379,7 +380,8 @@ export default {
     },
     deleteEmployee(value) {
       if(value == 'Eliminar Colaborador') {
-        axios.delete(constants.endpoints.dev.users.deleteEmployee + EditEmployeeStore.id)
+        const baseUrl = constants.urls[process.env.NODE_ENV];
+        axios.delete(baseUrl + constants.endpoints.users.deleteEmployee + EditEmployeeStore.id)
           .then(response => {
             console.log(response.data);
           })
@@ -391,8 +393,8 @@ export default {
     },
     submitInfo () {
       const payload = JSON.stringify(NewEmployeeStore);
-      console.log(payload);
-      const editEmployeeUrl = constants.endpoints.dev.users.updateEmployee + EditEmployeeStore.id;
+      const baseUrl = constants.urls[process.env.NODE_ENV];
+      const editEmployeeUrl = baseUrl + constants.endpoints.users.updateEmployee + EditEmployeeStore.id;
       const customConfig = { headers: { 'Content-Type': 'application/json' }};
 
       axios.put(editEmployeeUrl, payload, customConfig)
@@ -414,7 +416,8 @@ export default {
     deleteFile (dialogValue) {
       if(dialogValue != 'Cancel') {
         let formData = new FormData();
-        const deleteFileUrl = constants.endpoints.dev.users.deleteFile + EditEmployeeStore.id + '/attachment';
+        const baseUrl = constants.urls[process.env.NODE_ENV];
+        const deleteFileUrl = baseUrl + constants.endpoints.users.deleteFile + EditEmployeeStore.id + '/attachment';
         const customConfig = { headers: { 'Content-Disposition': 'form-data' }};
         const key = Object.keys(constants.employee.attachments).find((key) => {
           return constants.employee.attachments[key] === this.file.type;

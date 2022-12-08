@@ -64,7 +64,8 @@ export default {
       formData.append('attachment', file);
       formData.append('what', 'structural_ifc');
 
-      const uploadProjectFile = constants.endpoints.dev.projects.uploadFile + EditProjectStore.id + '/attachment';
+      const baseUrl = constants.urls[process.env.NODE_ENV];
+      const uploadProjectFile = baseUrl + constants.endpoints.projects.uploadFile + EditProjectStore.id + '/attachment';
       const customConfig = { headers: { 'Content-Disposition': 'form-data' }};
 
       axios.post(uploadProjectFile, formData, customConfig)

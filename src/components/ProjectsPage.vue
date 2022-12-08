@@ -99,7 +99,8 @@ export default Vue.extend({
     NewProjectPage
   },
   beforeMount () {
-    const listProjectsUrl = constants.endpoints.dev.projects.getProjects;
+    const baseUrl = constants.urls[process.env.NODE_ENV];
+    const listProjectsUrl = baseUrl + constants.endpoints.projects.getProjects;
 
     axios.get(listProjectsUrl)
       .then(response => {
@@ -171,8 +172,9 @@ export default Vue.extend({
     },
     submitInfo () {
       const payload = JSON.stringify(NewProjectStore);
-      const newProjectUrl = constants.endpoints.dev.projects.createProject;
-      const listProjectsUrl = constants.endpoints.dev.projects.getProjects;
+      const baseUrl = constants.urls[process.env.NODE_ENV];
+      const newProjectUrl = baseUrl + constants.endpoints.projects.createProject;
+      const listProjectsUrl = baseUrl + constants.endpoints.projects.getProjects;
       const customConfig = { headers: { 'Content-Type': 'application/json' }};
 
       axios.post(newProjectUrl, payload, customConfig)

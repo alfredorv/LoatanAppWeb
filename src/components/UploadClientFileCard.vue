@@ -138,7 +138,8 @@ export default {
       formData.append('attachment', file);
       formData.append('what', fileType);
 
-      const uploadCustomerFile = constants.endpoints.dev.customers.uploadFile + EditClientStore.id + '/attachment';
+      const baseUrl = constants.urls[process.env.NODE_ENV];
+      const uploadCustomerFile = baseUrl + constants.endpoints.customers.uploadFile + EditClientStore.id + '/attachment';
       const customConfig = { headers: { 'Content-Disposition': 'form-data' }};
 
       axios.post(uploadCustomerFile, formData, customConfig)

@@ -281,17 +281,18 @@ export default {
   },
   beforeMount () {
     this.loadingData = true;
-    let getCustomersUrl = constants.endpoints.dev.customers.getCustomers;
-    let getEmployeesUrl = constants.endpoints.dev.users.getEmployees;
+    const baseUrl = constants.urls[process.env.NODE_ENV];
+    let getCustomersUrl = baseUrl + constants.endpoints.customers.getCustomers;
+    let getManagersUrl = baseUrl + constants.endpoints.users.getManagers;
 
     axios.get(getCustomersUrl)
       .then(response => response.data.forEach(c => this.customersList.push(c.client)))
       .catch(error => console.log(error));
 
-    axios.get(getEmployeesUrl)
+    axios.get(getManagersUrl)
     .then(response => {
       if(response.data.length > 0) {
-        this.managersList = response.data.filter(e => e.employee.position_id == 'manager');
+        this.managersList = response.data;
       }
     })
     .catch(error => {
