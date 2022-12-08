@@ -1,0 +1,33 @@
+@import "/src/assets/css/main.scss";
+
+body, html {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+label {
+  float: left;
+  clear: left;
+  width: 45%;
+  text-align: right;
+  margin-top: 20px;
+}
+
+input {
+  margin-top: 20px;
+  float: left;
+  padding-left: 10px;
+  margin-left: 5px;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  border-radius: 5px;
+  height: 20px;
+}
+
+.no-outline:focus {
+  outline: none;
+}
