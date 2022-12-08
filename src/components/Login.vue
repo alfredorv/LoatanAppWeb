@@ -82,7 +82,10 @@ export default {
   methods: {
     async login() {
       const baseUrl = constants.urls[process.env.NODE_ENV];
+      console.log(baseUrl);
       const loginUrl = baseUrl + constants.endpoints.login;
+      console.log(loginUrl);
+
 
       this.loading = true;
       axios.post(loginUrl, {
