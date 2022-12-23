@@ -34,6 +34,15 @@
       />
     </div>
 
+    <div v-if="deletedEmployee" class="overlay">
+      <MessageCard
+        card-title="¡Listo!"
+        card-subtitle="Colaborador eliminado."
+        card-message=""
+        @closeCard="deletedEmployee = false"
+      />
+    </div>
+
     <!--------------- Upload File Card --------------------------->
     <div v-if="showUploadFile" class="overlay">
       <UploadEmployeeFileCard
@@ -284,7 +293,7 @@ export default {
 
         let taxInformation = employee.personal_info.tax_information;
         if(taxInformation.length > 0) {
-          this.rfc = taxInformation.rfc;
+          this.rfc = taxInformation[0].rfc;
         }
 
         this.loadingData = false;
@@ -314,6 +323,7 @@ export default {
     errorEditingEmployee: false,
     file: {},
     deletingFile: false,
+    deletedEmployee: false,
     rules: [
       value => {
         if(!value) return 'Campo requerido.';
@@ -383,7 +393,10 @@ export default {
         const baseUrl = constants.urls[process.env.NODE_ENV];
         axios.delete(baseUrl + constants.endpoints.users.deleteEmployee + EditEmployeeStore.id)
           .then(response => {
-            console.log(response.data);
+            if(response.status == 200) {
+              this.deletedEmployee = true;
+              this.goToDashboard();
+            }
           })
           .catch(error => {
             console.log(error);
@@ -399,7 +412,7 @@ export default {
 
       axios.put(editEmployeeUrl, payload, customConfig)
       .then(response => {
-        if(response.status == 200) {
+        if(response.status == 204) {
             this.editedEmployee = true;
             console.log('Editado exitosamente.');
           }

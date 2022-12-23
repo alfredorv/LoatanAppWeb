@@ -482,7 +482,7 @@ export default {
         axios.delete(deleteCustomerUrl + EditClientStore.id)
           .then(response => {
             if(response.status == 200) {
-              console.log('Cliente eliminado exitosamente!');
+              this.goToDashboard();
             }
           })
           .catch(error => {
