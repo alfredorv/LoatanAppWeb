@@ -11,47 +11,53 @@
         @closeCard="failedRequest = false"
       />
     </div>
+
+    <div v-if="resettedPass" class="overlay">
+      <MessageCard
+        card-title="¡Listo!"
+        card-subtitle="Te hemos enviado tu contraseña al correo que proporcionaste."
+        card-message=""
+        @closeCard="confirmResettedPass"
+      />
+    </div>
+
     <div class="container">
+      <div class="row" style="margin-top: 40px;">
+        <h1>¿Olvidaste tu contraseña?</h1>
+      </div>
+      <div class="row" style="margin-top: 20px;">
+        <p>¡No te preocupes! Coloca tu correo Loatan en el siguiente campo.</p>
+      </div>
       <div class="row">
-        <div class="col">
-          <div id="login-card">
-            <h4>¡Hola de nuevo!</h4>
-            <v-form
+        <v-form
               ref="form"
               v-model="valid"
               lazy-validation
             >
               <v-text-field
                 v-model="username"
-                label="Usuario"
+                label="Correo Loatan"
                 required
-              ></v-text-field>
-
-              <v-text-field
-                v-model="password"
-                label="Password"
-                required
-                :append-icon="hidePassword ? 'mdi-eye-off' : 'mdi-eye'"
-                @click:append="() => (hidePassword = !hidePassword)"
-                :type="hidePassword ? 'password' : 'text'"
               ></v-text-field>
 
               <v-btn
-                @click="login"
+              style="margin-right: 10px;"
+                @click="goToLogin"
+                color="error"
               >
-                Login
+                Cancelar
+              </v-btn>
+              <v-btn
+              style="margin-right: 10px;"
+                color="teal"
+                @click="resetPassword"
+              >
+                Recuperar contraseña
               </v-btn>
             </v-form>
-          </div>
-          <br>
-          <a id="forgot-pass-link" href="" @click="goToResetPassword">¿Olvidaste tu contraseña?</a>
-        </div>
-        <div id="image-container" class="col">
-          <div id="login-image"></div>
-        </div>
       </div>
     </div>
-    <footer>&copy; Loatan Constructora {{ year }}</footer>
+    <footer id="forgot-footer">&copy; Loatan Constructora {{ year }}</footer>
   </div>
 </template>
 
@@ -61,43 +67,37 @@ import MessageCard from './MessageCard.vue'
 import constants from '@/constants'
 
 export default {
-  name: 'login-component',
   components: {
     MessageCard
   },
   data() {
     return {
-      hidePassword: true,
       username: '',
-      password: '',
       loginResponse: {},
       valid: false,
       loading: false,
       failedRequest: false,
       cardMessage: '',
+      resettedPass: false,
       year: new Date().getFullYear()
     }
   },
   methods: {
-    async login() {
+    async resetPassword() {
       const baseUrl = constants.urls[process.env.NODE_ENV];
-      const loginUrl = baseUrl + constants.endpoints.login;
+      const resetPassUrl = baseUrl + constants.endpoints.users.forgotPassword;
       const customConfig = { headers: { 'Content-Type': 'application/json' }};
 
 
       this.loading = true;
-      axios.post(loginUrl, {
-        session: {
-            email: this.username.toString(),
-            password: this.password.toString()
+      axios.post(resetPassUrl, {
+        user: {
+            email: this.username.toString()
         }
       }, customConfig).then((response) => {
-        if(response.status == 200) {
-          this.$store.dispatch('authenticateUser', true);
-          this.$store.dispatch('saveUserDetails', response.data);
-          this.$router.push('/dashboard');
+        if(response.status == 200 || response.status == 204) {
+          this.resettedPass = true;
         }
-        this.$store.dispatch('authenticateUser', false);
         this.loading = false;
       }).catch((error) => {
         this.failedRequest = true;
@@ -105,27 +105,40 @@ export default {
         this.cardMessage = error.response.data.errors[0].message;
       });
     },
-    goToResetPassword () {
-      this.$router.push('/forgotPassword');
+    confirmResettedPass () {
+      this.resettedPass = false;
+      this.goToLogin();
+    },
+    goToLogin () {
+      this.$router.push('/');
     }
   }
 }
 </script>
 
 <style>
+#forgot-footer {
+  position: fixed;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+}
+
 #login-background {
   background: rgb(255,255,255);
   background: linear-gradient(0deg, rgba(80,80,80,1) 0%, rgba(255,255,255,1) 100%);
   height: 97vh;
 }
 
-#login-image {
+#forgot-image {
   background-image: url('../assets/logo1.png');
-  background-size: 400px;
+  background-size: 500px;
   background-repeat:no-repeat;
-  height: 97vh;
-  margin-top: 20vh;
-  margin-left: 125px;
+  height: 40vh;
+  margin-top: 0vh;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
 }
 
 #login-card {

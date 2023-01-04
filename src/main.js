@@ -8,6 +8,7 @@ import NewClientPage from './components/NewClientPage.vue'
 import EditClientPage from './components/EditClientPage.vue'
 import EditProjectPage from './components/EditProjectPage.vue'
 import EditEmployeePage from './components/EditEmployeePage.vue'
+import ForgotPasswordPage from './components/ForgotPasswordPage.vue'
 import vuetify from './plugins/vuetify'
 import vueCountryRegionSelect from 'vue-country-region-select'
 import store from './store/store'
@@ -25,6 +26,7 @@ const routes = [
   { path: '/editClient', component: EditClientPage },
   { path: '/editProject', component: EditProjectPage },
   { path: '/editEmployee', component: EditEmployeePage },
+  { path: '/forgotPassword', component: ForgotPasswordPage },
 ];
 
 const router = new VueRouter({

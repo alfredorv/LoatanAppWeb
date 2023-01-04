@@ -17,7 +17,8 @@ export default {
       getManagers: '/construction_managers',
       uploadFile: '/employees/',
       deleteFile: '/employees/',
-      deleteEmployee: '/employees/'
+      deleteEmployee: '/employees/',
+      forgotPassword: '/users/reset_password'
     },
     customers: {
       createCustomer: '/clients',
